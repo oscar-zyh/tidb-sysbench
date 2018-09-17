@@ -5,7 +5,8 @@
 
 # set global parameters
 if [ $# -ne 2 ]; then
-  echo "usage: $0 <benchtype(0:readonly,1:writeonly,2:readwrite)> <threads>"
+  echo "usage: $0 <benchtype> <threads>"
+  echo "benchtype:(0:readonly,1:writeonly,2:readwrite,3:pointselect)"
   exit -1
 fi
 btype=$1
@@ -61,6 +62,23 @@ elif [ ${btype} -eq 2 ]; then
   echo "-------------------- bench read-write --------------------"
   echo "-------------------- threads: ${threads} --------------------"
   ../sysbench oltp_read_write.lua \
+    --db-driver=mysql \
+    --mysql-host=${host} \
+    --mysql-port=${port} \
+    --mysql-db=${dbname} \
+    --mysql-user=${user} \
+    --mysql-password=${password} \
+    --table_size=${tsize} \
+    --tables=${tcount} \
+    --threads=${threads} \
+    --events=${maxevents} \
+    --report-interval=${interval} \
+    --time=${maxtime} \
+    run
+elif [ ${btype} -eq 3 ]; then
+  echo "-------------------- bench point-select --------------------"
+  echo "-------------------- threads: ${threads} --------------------"
+  ../sysbench oltp_point_select.lua \
     --db-driver=mysql \
     --mysql-host=${host} \
     --mysql-port=${port} \

@@ -4,8 +4,8 @@ port=4000
 user=root
 password=''
 tcount=1
-tsize=100000000
-dbname=sbtestx
+tsize=20000000
+dbname=sbtest
 
 # report interval
 interval=10
